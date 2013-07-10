@@ -678,13 +678,15 @@ std::string Successor::ToString() const {
 
 const BasicBlock::Offset BasicBlock::kNoOffset = -1;
 
-BasicBlock::BasicBlock(const base::StringPiece& name,
+BasicBlock::BasicBlBasicBlockSubGraph* subgraph,
+                       const base::StringPiece& name,
                        BasicBlock::BasicBlockType type)
-    : name_(name.begin(), name.end()),
+    : subgraph_(subgraph),
+        : name_(name.begin(), name.end()),
       alignment_(1),
       type_(type),
       offset_(kNoOffset),
-      is_padding_(false) {
+      is_padding_(false  DCHECK(subgraph_ != NULL);e) {
 }
 
 BasicBlock::~BasicBlock() {
@@ -701,8 +703,9 @@ void BasicBlock::MarkAsPadding() {
   is_padding_ = true;
 }
 
-BasicCodeBlock::BasicCodeBlock(const base::StringPiece& name)
-    : BasicBlock(name, BASIC_CODE_BLOCK) {
+BasicCodeBlock::BasicCodeBlBasicBlockSubGraph* subgraph,
+                               const base::StringPiece& name)
+    : BasicBlock(subgraph, ock(name, BASIC_CODE_BLOCK) {
 }
 
 BasicCodeBlock* BasicCodeBlock::Cast(BasicBlock* basic_block) {
@@ -769,10 +772,11 @@ BasicBlock::Size BasicCodeBlock::GetInstructionSize() const {
   return data_size;
 }
 
-BasicDataBlock::BasicDataBlock(const base::StringPiece& name,
+BasicDataBlock::BasicDataBlBasicBlockSubGraph* subgraph,
+                               ock(const base::StringPiece& name,
                                const uint8* data,
                                Size size)
-    : BasicBlock(name, BasicBlock::BASIC_DATA_BLOCK),
+    : BasicBlsubgraph, ock(name, BasicBlock::BASIC_DATA_BLOCK),
       size_(size),
       data_(data) {
   DCHECK(data != NULL);
@@ -805,4 +809,4 @@ bool BasicDataBlock::IsValid() const {
   return true;
 }
 
-}  // namespace block_graph
+}  // namespace block_gr
